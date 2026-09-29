@@ -1,0 +1,12 @@
+{
+  "name": "changeradar",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Self-hosted change-impact analysis: see which known consumers a proposed manifest change can break.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=22.12" },
+  "scripts": {
+    "verify": "bash scripts/verify-quality.sh"
+  }
+}

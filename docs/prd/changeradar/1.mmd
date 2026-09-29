@@ -1,0 +1,18 @@
+%%{init: {'theme':'base','themeVariables':{'background':'#0d1117','primaryColor':'#161b22','primaryBorderColor':'#00f0ff','primaryTextColor':'#e2e8f0','lineColor':'#94a3b8','fontFamily':'JetBrains Mono, monospace'}}}%%
+graph TD
+ N0["Import baseline and proposal"]:::hot
+ N1["Validate declared graph"]:::hot
+ N2["Known inputs complete?"]:::hot
+ N3["Traverse affected consumers"]:::hot
+ N4["Impact paths and owners"]:::hot
+ N5["Incomplete coverage warning"]:::hot
+ N0 ==> N1
+ N1 ==> N2
+ N2 ==> N3
+ N3 ==> N4
+ N4 ==> N5
+
+classDef hot fill:#0d1117,stroke:#00f0ff,stroke-width:2px,color:#e2e8f0;
+classDef green fill:#0d1117,stroke:#10b981,stroke-width:1.5px,color:#e2e8f0;
+classDef ext fill:#0d1117,stroke:#64748b,stroke-dasharray:4 3,color:#94a3b8;
+linkStyle 0,1,2,3,4 stroke:#00f0ff,stroke-width:2px;
