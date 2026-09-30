@@ -13,3 +13,7 @@ __pycache__/
 .DS_Store
 demo-artifacts/
 *.tgz
+
+# local working copies and scratch state (never staged)
+.claude/
+.changeradar/

@@ -1,0 +1,49 @@
+{
+  "_": "First error message of failing tests, captured from REAL runs (stack lines and ANSI colour removed): vitest 5.0.2 with the JSON reporter (unit and jsdom web environments, @testing-library/react 16.3.3) and @playwright/test 1.63.0 with the JSON reporter. The classifier tests read these instead of hand-written imitations.",
+  "vitest": {
+    "crash-uncaught": "AssertionError: expected 1 to be +0 // Object.is equality",
+    "crash-uncaught-labelled": "AssertionError: the child ran: expected 1 to be +0 // Object.is equality",
+    "decision-exit-2": "AssertionError: expected 2 to be +0 // Object.is equality",
+    "decision-exit-2-labelled": "AssertionError: export at the byte limit: expected 2 to be +0 // Object.is equality",
+    "label-mentions-plus-zero": "AssertionError: a crash prints expected 1 to be +0 // Object.is equality: expected 'KILLED' to be 'SUSPECT' // Object.is equality",
+    "fraction": "AssertionError: expected 3 to be 0.5 // Object.is equality",
+    "internal-error": "AssertionError: expected 'changeradar: unexpected internal erro…' to contain 'standard input is larger than 65536 b…'",
+    "exit-70": "AssertionError: expected 70 to be 1 // Object.is equality",
+    "signal": "AssertionError: expected null to be +0 // Object.is equality",
+    "plain-assertion": "AssertionError: expected 2 to be 3 // Object.is equality",
+    "labelled-assertion": "AssertionError: custom label: expected 2 to be 3 // Object.is equality",
+    "query-null": "AssertionError: expected null not to be null",
+    "crash-type-error": "TypeError: Cannot read properties of undefined (reading 'x')",
+    "load-time-crash-stderr-cut": "AssertionError: expected '[eval]:1\\nthrow new Error(\\'module fa…' to be '' // Object.is equality",
+    "load-time-crash-status": "AssertionError: spawned program exit status: expected 1 to be +0 // Object.is equality",
+    "thrown-expected-received": "Error: bad\nExpected: 1\nReceived: 2",
+    "rejects-tomatchobject": "Error: expected AppError: schema_version must be an integ… { …(4) } to match object { status: 403, code: 'FORBIDDEN' }\n(3 matching properties omitted from actual)\n    at _Assertion.__VITEST_REJECTS__ (file:///x/node_modules/vitest/dist/chunks/run.js:1:1)",
+    "thrown-expected-words": "Error: expected the fixture to exist\n    at helper (file:///x/tests/helpers/fixture.ts:1:1)"
+  },
+  "vitest-web": {
+    "lookup-testid": "TestingLibraryElementError: Unable to find an element by: [data-testid=\"coverage\"]",
+    "lookup-role": "TestingLibraryElementError: Unable to find an accessible element with the role \"alert\"",
+    "lookup-find-text": "Error: Unable to find an element with the text: RE-RUN REQUIRED. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.",
+    "lookup-multiple": "TestingLibraryElementError: Found multiple elements by: [data-testid=\"a\"]",
+    "lookup-multiple-text": "Error: Found multiple elements with the text: hello"
+  },
+  "playwright": {
+    "labelled-contain": "Error: unsupported version\n\nexpect(received).toContain(expected) // indexOf\n\nExpected substring: \"BUNDLE_UNSUPPORTED_VERSION\"\nReceived string:    \"some stderr\"",
+    "unlabelled-tobe": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 2\nReceived: 1",
+    "labelled-tobe": "Error: exit status\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: 2\nReceived: 1",
+    "labelled-status-3-for-0": "Error: spawned CLI exit status\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: 0\nReceived: 3",
+    "labelled-status-1-for-0": "Error: spawned CLI exit status\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: 0\nReceived: 1",
+    "thrown-error": "Error: boom",
+    "poll-timeout": "Error: polled value\n\npolled value\n\nexpect(received).toBe(expected) // Object.is equality\n\nExpected: 2\nReceived: 1\n\nCall Log:\n- Timeout 300ms exceeded while waiting on the predicate",
+    "not-contain": "Error: must not contain\n\nexpect(received).not.toContain(expected) // indexOf\n\nExpected substring: not \"b\"\nReceived string:        \"abc\"",
+    "unlabelled-tobenull": "Error: expect(received).toBeNull()\n\nReceived: 1",
+    "unlabelled-toequal": "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  - 1\n+ Received  + 1\n\n  Object {\n-   \"a\": 2,\n+   \"a\": 1,\n  }",
+    "unlabelled-tobetruthy": "Error: expect(received).toBeTruthy()\n\nReceived: 0",
+    "unlabelled-tothrow": "Error: expect(received).toThrow()\n\nReceived function did not throw",
+    "helper-threw-expect-line": "Error: helper failed\nexpect(page).toHaveTitle(x) was never reached",
+    "thrown-blank-line-expect-line": "Error: helper failed\n\nexpect(page).toHaveTitle(x). was never reached",
+    "thrown-expected-received-one-newline": "Error: bad\nExpected: 1\nReceived: 2",
+    "thrown-expected-received-blank-line": "Error: bad\n\nExpected: 1\nReceived: 2",
+    "whole-test-timeout": "Test timeout of 300ms exceeded."
+  }
+}
