@@ -79,6 +79,8 @@ describe("R8: a bang word glued to more text is a value", () => {
   // then stopped at the quote or the brace, so `password: !'dx$awi` and `password: !{7eDk}` were readable where the previous tree hid them.
   it.each([
     ["a quote behind the bang", "!'dx$awi", "dx$awi"],
+    ["a semicolon behind the bang (the word runs to the next blank, comma or bracket)", "!;gEo7H1=q$Yms>", "gEo7H1=q$Yms>"],
+    ["a quote that closes inside the word, then more text", "!ab\"Kq9Zx2Lm7P\"", "Kq9Zx2Lm7P"],
     ["a brace group", "!{7eDk}", "7eDk"],
     ["a double quote and a text-written break", '!"7uQ\\nS', "7uQ"],
     ["a brace group glued to more text", "!{ab3}Kq9Zx2", "Kq9Zx2"],

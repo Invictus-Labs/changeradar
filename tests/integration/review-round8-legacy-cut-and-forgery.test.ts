@@ -125,6 +125,7 @@ describe("R8 B7 (logic P2): a resealed bundle that blanks a code, an id, an edge
       ["unknown id := the marker", (run) => { run.unknowns[0].id = M; }],
       ["unknown node_id := the marker", (run) => { run.unknowns[0].node_id = M; }],
       ["unknown edge.source_id := the marker", (run) => { run.unknowns[0].edge = { ...run.unknowns[0].edge, source_id: M }; }],
+      ["unknown edge.source_id := a marker behind a credential-shaped word (the shape is right, the member is not free text)", (run) => { run.unknowns[0].edge = { ...run.unknowns[0].edge, source_id: `${SOURCE.split(":")[0]}:${M}` }; }],
       ["finding reason := the marker", (run) => { run.findings[0].reason = M; }],
       ["detail.baseline_hash := the marker", (run) => { run.assessment_detail.baseline_hash = M; }],
       ["detail.coverage.limits[0].code := the marker", (run) => { run.assessment_detail.coverage.limits[0].code = M; }],
@@ -138,5 +139,19 @@ describe("R8 B7 (logic P2): a resealed bundle that blanks a code, an id, an edge
       apply(bundle.impact_runs[0]);
       expect(verdictOf(reseal(bundle)), label).toBe("refused: BUNDLE_RUN_INCONSISTENT");
     }
+  }, 240_000);
+
+  it("the masked reading still applies to a finding reason: a marker that hides a value this redactor leaves readable verifies, and the same reason with a changed visible character does not", async () => {
+    const base = await freshBundle("LegacyReason", ["id"], ["id"], ["id", "amount"], ["amount"]);
+    const reasonOf = (bundle: Record<string, any>): string => bundle.impact_runs[0].findings[0].reason as string;
+    const bundle = JSON.parse(base) as Record<string, any>;
+    const reason = reasonOf(bundle);
+    expect(reason.includes(TARGET), `the reason names the contract: ${reason}`).toBe(true);
+    // a record in which a marker stands for the value of the credential-shaped id `token:proxy` (this redactor leaves that id readable, a stricter one hides it)
+    bundle.impact_runs[0].findings[0].reason = reason.replace(TARGET, "token:[REDACTED]");
+    expect(verdictOf(reseal(bundle)), "a finding reason in a masked form").toBe("verifies");
+    const changed = JSON.parse(base) as Record<string, any>;
+    changed.impact_runs[0].findings[0].reason = reason.replace(TARGET, "token:[REDACTED]").replace("Direct", "Indirect");
+    expect(verdictOf(reseal(changed)), "a visible word that the derivation lacks").toBe("refused: BUNDLE_RUN_INCONSISTENT");
   }, 240_000);
 });

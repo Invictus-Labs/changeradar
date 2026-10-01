@@ -29,7 +29,8 @@ describe("R8: maskedEqual", () => {
     expect(maskedEqual("abc", `${M}abc`), "an empty span at the start").toBe(false);
     expect(maskedEqual("a:bc", `a:${M}${M}`), "two adjacent markers are not a redaction of anything").toBe(false);
     expect(maskedEqual("abc", `${M}x${M}`), "a fragment that the derivation lacks").toBe(false);
-    expect(maskedEqual("k:b:c", `k:${M}b:${M}c`), "the marker in front of `b:` would hide nothing: `b:` stands right behind `k:`").toBe(false);
+    expect(maskedEqual("k:b:xc", `k:${M}b:${M}c`), "the marker in front of `b:` would hide nothing: `b:` stands right behind `k:`").toBe(false);
+    expect(maskedEqual("k:b:c", `k:${M}b:${M}c`), "and the marker behind `b:` hides nothing either").toBe(false);
     expect(maskedEqual("k:Xb:Yc", `k:${M}b:${M}c`), "the same record over a derivation in which each marker hides a character").toBe(true);
     expect(maskedEqual("k:a", `k:${M}`), "a single character may be hidden").toBe(true);
     expect(maskedEqual("k:", `k:${M}`), "nothing cannot be hidden").toBe(false);

@@ -474,17 +474,19 @@ function scanAssignments(text: string, out: Span[]): void {
         }
       }
     }
-    // A `!` that is still here was not a tag (see skipNodeProperties: glued to more text it is a VALUE, hidden whole from the `!`): the value ends where the furthest of three
-    // readings ends: the value read from the character behind the `!` (a quote opens a quoted value, a bracket, a brace or a parenthesis a group), the word up to a blank, a comma,
-    // a closing bracket or brace, a backslash or a quote (the span that a tree before round 8 hid, `!;gEo7H1=q...`), and the value read where that word stops (`!'dx$awi`, `!]*9H_`).
-    const bang = text[i] === "!";
-    let value: { start: number; end: number; quoted: boolean };
-    if (bang) {
+    // A `!` that is still here was not a tag (see skipNodeProperties: glued to more text it is a VALUE, hidden whole from the `!`): it is hidden up to the furthest of two readings,
+    // the value read from the character behind the `!` (a quote opens a quoted value, a bracket, a brace or a parenthesis a group: `!'dx$awi`, `!]*9H_`, `!{7eDk}`) and the word up to
+    // a blank, a comma, a closing bracket or brace, a backslash or a quote (the span that a tree before round 8 hid: `!;gEo7H1=q...`). The value behind that word is read as any other.
+    // (A short word that a backslash ends, `!ab\\\apikey: S`, is the other way out of skipNodeProperties: it is read as a bare value from the `!`, with the key inside it kept.)
+    if (text[i] === "!") {
       const word = propertyWordEnd(text, i);
-      const behind = readValue(text, i + 1, ASSIGN_ENDS);
-      const beyond = word < text.length ? readValue(text, word, ASSIGN_ENDS).end : word;
-      value = { start: i, end: Math.max(behind.end, word, beyond), quoted: true };
-    } else value = readValue(text, i, ASSIGN_ENDS);
+      if (text[word] !== "\\") {
+        const end = Math.max(readValue(text, i + 1, ASSIGN_ENDS).end, word);
+        if (end - i >= 6) out.push({ start: i, end, kind: "credential_assignment", low: true });
+        i = end;
+      }
+    }
+    let value = readValue(text, i, ASSIGN_ENDS);
     // `password: string = "S"`: a type name after the key, and the value behind the `=`.
     if (!value.quoted && value.end - value.start <= 16 && TYPE_WORD.test(text.slice(value.start, value.end))) {
       const equals = skipBlank(text, value.end);

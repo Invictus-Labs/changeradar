@@ -28,7 +28,9 @@ describe("R8 B7: a marker stands behind a credential-shaped word", () => {
     expect(maskedEqual("abc", `${M}${M}`), "two markers").toBe(false);
     expect(maskedEqual("token:abcd", `token:${M}${M}`), "two markers side by side behind a word").toBe(false);
     expect(maskedEqual("x token: abc", `x token: ${M}`), "a blank between the separator and the marker").toBe(false);
-    expect(maskedEqual("token:abc", `:${M}`), "a separator with no word in front of it").toBe(false);
+    expect(maskedEqual("token:abc", `:${M}`), "a separator with no word in front of it (the derivation does not start so either)").toBe(false);
+    expect(maskedEqual(":abc", `:${M}`), "a separator with no word in front of it, over a derivation that starts with it").toBe(false);
+    expect(maskedEqual("x :abc", `x :${M}`), "a separator behind a blank").toBe(false);
   });
 });
 
@@ -44,6 +46,9 @@ describe("R8 B7: a record that is a cut is a masked prefix of the derivation", (
     expect(maskedEqual(D, `x edge auth:${M} declares`, true), "an unanchored start").toBe(false);
     expect(maskedEqual(D, `edge auth:${M}issuer|consumes|token:service declares`, true), "an empty span").toBe(false);
     expect(maskedEqual(D, "edge auth:issuer|consumes|token:servicX", true), "no marker, a changed character").toBe(false);
+    expect(maskedEqual("ab:c", `ab:${M}ab`, true), "the last fragment stands behind the hidden span, not in front of it").toBe(false);
+    expect(maskedEqual("ab:cd ab", `ab:${M}ab`, true), "the last fragment stands behind the hidden span").toBe(true);
+    expect(maskedEqual("xxauth:issuer", "auth:issuer", true), "no marker: the prefix is anchored at the start").toBe(false);
     expect(maskedEqual("abc:x", `abc:${M}`, true)).toBe(true);
     expect(maskedEqual("abc:", `abc:${M}`, true), "nothing is left to hide").toBe(false);
   });
@@ -103,6 +108,7 @@ describe("R8 B7: the masked reading applies to free text members only", () => {
     expect(maskedEqualDeep({ unknowns: [{ code: "C", message: D1 }] }, { unknowns: [{ code: "C", message: M1 }] })).toBe(true);
     expect(maskedEqualDeep({ unknowns: [{ code: D1, message: D1 }] }, { unknowns: [{ code: M1, message: D1 }] })).toBe(false);
     expect(maskedEqualDeep({ limits: [D1] }, { limits: [M1] }), "a bare array of strings is not free text").toBe(false);
+    expect(maskedEqualDeep({ message: [D1] }, { message: [M1] }), "an array under a free member is free text").toBe(true);
     expect(maskedEqualDeep({ coverage: { limits: [{ code: "C", message: D1 }] } }, { coverage: { limits: [{ code: "C", message: M1 }] } })).toBe(true);
     expect(maskedEqualDeep({ coverage: { limits: [{ code: "C", message: D1 }] } }, { coverage: { limits: [{ code: M1, message: D1 }] } })).toBe(false);
   });
