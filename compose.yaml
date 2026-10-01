@@ -1,0 +1,60 @@
+# Self-hosted ChangeRadar: PostgreSQL 17 plus the API and worker in one container.
+# Values come from .env (copy .env.example and replace every placeholder). Nothing here needs an account,
+# a license server or outbound network access.
+#
+# Binding: the server listens on all interfaces INSIDE its container, and the port is published to the host's
+# loopback address only (127.0.0.1). To reach it from another machine put a TLS reverse proxy in front of it;
+# do not change the published address to 0.0.0.0 without one.
+#
+# The image is built from the repository Dockerfile (Node 22.12 base, non-root user, no secret baked in).
+#
+#   cp .env.example .env         # replace every <placeholder>: POSTGRES_PASSWORD and CHANGERADAR_ENCRYPTION_KEY are required
+#   docker compose up -d --build
+#   docker compose exec changeradar node dist/src/cli.js admin create --email you@example.test --workspace "My team" --generate-password
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: changeradar
+      POSTGRES_DB: changeradar
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - changeradar-db:/var/lib/postgresql/data
+    # The database restarts after a crash or a host reboot like the application does (the application waits for it).
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "changeradar"]
+      interval: 5s
+      retries: 20
+
+  changeradar:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      CHANGERADAR_DATABASE_URL: postgres://changeradar@db:5432/changeradar
+      CHANGERADAR_DATABASE_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      CHANGERADAR_ENCRYPTION_KEY: ${CHANGERADAR_ENCRYPTION_KEY:?set CHANGERADAR_ENCRYPTION_KEY in .env}
+      CHANGERADAR_HOST: 0.0.0.0
+      CHANGERADAR_PORT: 8797
+      CHANGERADAR_PUBLIC_URL: ${CHANGERADAR_PUBLIC_URL:-http://localhost:8797}
+      CHANGERADAR_CHECK_ALLOWED_HOSTS: ${CHANGERADAR_CHECK_ALLOWED_HOSTS:-}
+      CHANGERADAR_LOG: ${CHANGERADAR_LOG:-0}
+      NODE_OPTIONS: --max-old-space-size=3072
+    command: ["serve"]
+    init: true
+    # An out-of-memory kill or a crash restarts the service instead of leaving it down.
+    restart: unless-stopped
+    # The reference profile the benchmark documents (docs/BENCHMARK.md): 2 CPUs and 4 GB. The Node heap is capped
+    # below the container limit so a runaway allocation fails inside Node (a visible error) rather than being
+    # killed by the container runtime. Raise both together if your manifests are larger.
+    cpus: 2
+    mem_limit: 4g
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "127.0.0.1:${CHANGERADAR_HOST_PORT:-8797}:8797"
+
+volumes:
+  changeradar-db:

@@ -1,8 +1,8 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ChangeRadar PRD</title><style>/* ============================================================
- * Mission Control — Knox's report theme
+ * HTML companion report theme
  * ------------------------------------------------------------
  * Dark sci-fi command center · CRT/HUD aesthetic · Inter + JetBrains Mono
- * Domain colors per the Mission Control design system (MASTER.md)
+ * Domain colors per the design system used for these companions
  *
  * Sized for 3+ ft viewing distance from monitor:
  *   - Body: 19px (vs default 16px)
@@ -582,20 +582,18 @@ footer a:hover { color: var(--cyan); border-color: var(--cyan); }
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   Mission Control — v2 Diagram Frame (portable)
+   v2 Diagram Frame (portable)
    ────────────────────────────────────────────────────────────────────────
-   Ports the Operator's Academy "Diagram System v2" grammar
-   (academy/design-system/DIAGRAM-GRAMMAR.md) into a self-contained,
-   React-free CSS block for the HTML report companions emitted by the
-   innovation + prd-writer skills.
+   A self-contained, React-free CSS block for the HTML companion of this
+   document (diagram frame).
 
    USAGE: inline this file in a <style> block AFTER mission-control.css,
    then wrap every Mermaid graph in the .dg DiagramFrame markup documented
-   in reports-theme/DIAGRAMS.md. Mermaid renders the topology; this CSS
+   in the diagram markup of this page. Mermaid renders the topology; this CSS
    supplies the academy chrome (grid bg, mono title, ⊕ zoom chip, the
    InsightStrip takeaway bar).
 
-   DARK ONLY — Mission Control HTML companions are dark-mode only (Knox
+   DARK ONLY — these HTML companions are dark-mode only (project
    default). The academy's bi-modal light tokens are intentionally omitted.
    ════════════════════════════════════════════════════════════════════════ */
 
@@ -730,7 +728,7 @@ footer a:hover { color: var(--cyan); border-color: var(--cyan); }
   .dg-zoom { display: none; }
 }
 
-body{max-width:1220px;margin:auto;padding:36px;background:#080c12;color:#e2e8f0;font:16px/1.65 system-ui}h1,h2,h3{color:#00f0ff}h1{font-size:42px}h2{margin-top:48px}a{color:#00f0ff}table{width:100%;border-collapse:collapse;display:block;overflow:auto}td,th{border:1px solid #263747;padding:12px;text-align:left;vertical-align:top}pre{white-space:pre-wrap;overflow:auto;background:#111923;padding:18px}code{font-size:13px}.hero,.card{border:1px solid #294353;padding:24px;margin:24px 0}.dg svg{max-width:100%;height:auto}.badge{color:#fbbf24}.operator label{display:block;padding:12px;border-bottom:1px solid #263747}.source{display:none}nav a{margin-right:20px}</style></head><body><header class="hero"><span class="badge">DRAFT · #3793 · 29 SEP 2026</span><h1>ChangeRadar</h1><p>See which consumers a proposed change can break.</p><p>Proposed topology. Planned tests. No implementation or publication implied.</p></header><section class="operator card"><h2>SEC · 01b — Operator checklist</h2><label><input type="checkbox"> <b>Validate problem</b> — Interview three target operators and record five recent failure examples before expanding MVP. <small>Cost: No vendor cost; operator time</small></label><label><input type="checkbox"> <b>Select connector/runner</b> — Select the first manifest sources and contract formats; proposed MVP uses explicit JSON manifests and a limited required-field/type subset, not arbitrary schema compatibility. <small>Cost: Provider/VM cost unpriced; no spending authorized</small></label><label><input type="checkbox"> <b>Run independent drill</b> — Have a non-builder run the documented synthetic smoke; record identity, timing and help received. <small>Cost: Operator time</small></label><label><input type="checkbox"> <b>Prepare public release</b> — Choose license, maintainer, repository name, security contact and supported-version policy. <small>Cost: Hosting optional; budget decision pending</small></label><label><input type="checkbox"> <b>Set retention and access</b> — Approve data retention, backup recovery and who may administer integrations. <small>Cost: Operator time</small></label></section><section><h2>1. Problem Statement</h2><p>An API field, secret alias or artifact path changes in one service while downstream jobs silently continue with invalid assumptions. Dependency knowledge lives in people and scattered configuration.</p>
+body{max-width:1220px;margin:auto;padding:36px;background:#080c12;color:#e2e8f0;font:16px/1.65 system-ui}h1,h2,h3{color:#00f0ff}h1{font-size:42px}h2{margin-top:48px}a{color:#00f0ff}table{width:100%;border-collapse:collapse;display:block;overflow:auto}td,th{border:1px solid #263747;padding:12px;text-align:left;vertical-align:top}pre{white-space:pre-wrap;overflow:auto;background:#111923;padding:18px}code{font-size:13px}.hero,.card{border:1px solid #294353;padding:24px;margin:24px 0}.dg svg{max-width:100%;height:auto}.badge{color:#fbbf24}.operator label{display:block;padding:12px;border-bottom:1px solid #263747}.source{display:none}nav a{margin-right:20px}</style></head><body><header class="hero"><span class="badge">DRAFT · 29 SEP 2026</span><h1>ChangeRadar</h1><p>See which consumers a proposed change can break.</p><p>Proposed topology. Planned tests. No implementation or publication implied.</p></header><section class="operator card"><h2>SEC · 01b — Operator checklist</h2><label><input type="checkbox"> <b>Validate problem</b> — Interview three target operators and record five recent failure examples before expanding MVP. <small>Cost: No vendor cost; operator time</small></label><label><input type="checkbox"> <b>Select connector/runner</b> — Select the first manifest sources and contract formats; proposed MVP uses explicit JSON manifests and a limited required-field/type subset, not arbitrary schema compatibility. <small>Cost: Provider/VM cost unpriced; no spending authorized</small></label><label><input type="checkbox"> <b>Run independent drill</b> — Have a non-builder run the documented synthetic smoke; record identity, timing and help received. <small>Cost: Operator time</small></label><label><input type="checkbox"> <b>Prepare public release</b> — Choose license, maintainer, repository name, security contact and supported-version policy. <small>Cost: Hosting optional; budget decision pending</small></label><label><input type="checkbox"> <b>Set retention and access</b> — Approve data retention, backup recovery and who may administer integrations. <small>Cost: Operator time</small></label></section><section><h2>1. Problem Statement</h2><p>An API field, secret alias or artifact path changes in one service while downstream jobs silently continue with invalid assumptions. Dependency knowledge lives in people and scattered configuration.</p>
 <p><strong>Primary user / buyer:</strong> Operators maintaining several services and automation workflows.</p>
 <p><strong>Evidence status:</strong> product hypothesis from ecosystem operational pain, not validated demand. No competitor absence or willingness-to-pay claim is made. Before building beyond a synthetic prototype, interview three prospective users, capture five recent examples and compare the proposed workflow with their current tools.</p>
 </section><section><h2>2. Goal</h2><p>Build an explainable dependency graph from explicit versioned manifests and assess a proposed manifest diff against known consumers before rollout.</p>
@@ -948,7 +946,7 @@ body{max-width:1220px;margin:auto;padding:36px;background:#080c12;color:#e2e8f0;
 <p>Each service module requires meaningful normal, invalid and boundary cases; each API router requires success, authorization and conflict tests. Each implemented page receives an E2E smoke and render tests for loading, empty and failure. Target at least 90% branch/line coverage of new decision and service code, with exclusions documented. Coverage is supporting evidence, not a substitute for the matrix.</p>
 <p>Live adapters need opt-in sandbox tests pinned to provider/version and sanitized evidence. If credentials or a supported provider are absent, mark BLOCKED; mock success does not satisfy a live criterion. A seeded mandatory failure must turn the release verdict red. QA reconciles planned behavior labels to real test IDs in the implementation PR.</p>
 <p>The final receipt records every repository SHA, dirty-tree status, environment, command, exit code, run time, fixture version, artifact hashes, skipped tests and unresolved findings. Any required NOT RUN, PARTIAL or BLOCKED row prevents a claim that the matrix passed.</p>
-</section><section><h2>5c. Definition of Done</h2><p>Reference the canonical <strong>CLAUDE.md → Quality Gate Standard (ALL repos)</strong> at implementation time; resolve its actual workspace path in the build handoff and follow the current local/swarm runner policy. Do not introduce a competing universal gate in this PRD.</p>
+</section><section><h2>5c. Definition of Done</h2><p>The definition of done is this repository's own quality gate (<code>bash scripts/verify-quality.sh</code>, see <code>CONTRIBUTING.md</code> and <code>docs/qa/</code>); this document does not define a competing gate.</p>
 <p>Feature-specific release conditions: every numbered acceptance criterion has current evidence; live criteria have live sandbox receipts; independent review of the final tested revision has zero P0/P1; seeded negative controls fail as intended; documentation explains unknown/partial states. Manual manifests can become stale; adoption depends on a low-maintenance ownership and update workflow. Static analysis alone cannot establish actual runtime completeness.</p>
 <p>This document is a requirements draft, not an implementation or release receipt.</p>
 </section><h2>6. Technical Spec</h2><h3>Proposed architecture</h3>
@@ -1025,7 +1023,7 @@ linkStyle 0,1 stroke:#00f0ff,stroke-width:2px;
 <h3>Deployment, rollback and dependencies</h3>
 <p>Pin supported runtime/package versions during implementation and verify adapter behavior against primary provider documentation. No provider support is implied by this draft. CLI tools distribute a versioned package plus checksums; daemon products provide Compose, database migrations and example configuration with placeholders. Runtime telemetry is off by default.</p>
 <p>Before an upgrade, stop side-effect workers, back up metadata and encrypted evidence, and test restoration in an isolated environment. Prefer expand/contract migrations; rollback uses a verified snapshot where schema downgrade is unsafe. Reconcile external outcomes before enabling writes after restore. A restored local database cannot undo remote effects. Stage rollout: synthetic local prototype → read-only sandbox → scoped approved live sandbox → independent acceptance → owner-selected public release.</p>
-<section><h2>7. Agent Team Plan</h2><table>
+<section><h2>7. Work Plan</h2><table>
 <thead>
 <tr>
 <th>Owner</th>
@@ -1051,7 +1049,7 @@ linkStyle 0,1 stroke:#00f0ff,stroke-width:2px;
 </tr>
 </tbody>
 </table>
-<p>Future dispatch only. No implementation agents are started by PRD authoring. Backend freezes schemas first; UI consumes them and proposes changes through the backend owner. QA reports implementation defects to the owning agent instead of editing overlapping files. Coordinator resolves shared configuration and reviews final integration.</p>
+<p>Work split, as planned. Backend freezes schemas first; UI consumes them and proposes changes through the backend owner. QA reports implementation defects to the owner of the code instead of editing overlapping files. The release owner resolves shared configuration and reviews final integration.</p>
 <p>Milestones: (1) validate pain and unresolved provider capability; (2) schemas and deterministic core with failure states; (3) synthetic end-to-end demonstration; (4) selected connector sandbox and fault injection where applicable; (5) independent review/QA on exact revisions; (6) operator-approved public release. Stop at a provider capability blocker rather than weakening safety criteria.</p>
 </section><section><h2>8. Open Questions</h2><ul>
 <li><strong>HIGH — Provider / runner:</strong> Select the first manifest sources and contract formats; proposed MVP uses explicit JSON manifests and a limited required-field/type subset, not arbitrary schema compatibility.</li>
@@ -1111,4 +1109,4 @@ linkStyle 0,1 stroke:#00f0ff,stroke-width:2px;
 </tbody>
 </table>
 <p>Checks in the HTML persist locally and are operator notes, not evidence that external work was completed.</p>
-</section><section class="card"><h2>Build handoff</h2><pre>/feature-team docs/prd/changeradar.md</pre></section><script>document.querySelectorAll('input[type=checkbox]').forEach((e,i)=>{const k=location.pathname+':operator:'+i;e.checked=localStorage.getItem(k)==='1';e.addEventListener('change',()=>localStorage.setItem(k,e.checked?'1':'0'))});document.querySelectorAll('.dg').forEach(f=>f.addEventListener('click',()=>{const s=f.querySelector('svg');if(!s)return;const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:#080c12ee;z-index:9999;overflow:auto;padding:4vw;cursor:zoom-out';o.innerHTML=s.outerHTML;o.onclick=()=>o.remove();document.body.appendChild(o)}));</script><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';mermaid.initialize({startOnLoad:false,securityLevel:'strict'});</script></body></html>
+</section><section class="card"><h2>Build status</h2><p>See <code>docs/qa/ac-matrix.md</code> for what has been built and proven against each acceptance criterion.</p></section><script>document.querySelectorAll('input[type=checkbox]').forEach((e,i)=>{const k=location.pathname+':operator:'+i;e.checked=localStorage.getItem(k)==='1';e.addEventListener('change',()=>localStorage.setItem(k,e.checked?'1':'0'))});document.querySelectorAll('.dg').forEach(f=>f.addEventListener('click',()=>{const s=f.querySelector('svg');if(!s)return;const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:#080c12ee;z-index:9999;overflow:auto;padding:4vw;cursor:zoom-out';o.innerHTML=s.outerHTML;o.onclick=()=>o.remove();document.body.appendChild(o)}));</script></body></html>

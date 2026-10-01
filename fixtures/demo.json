@@ -1,0 +1,746 @@
+{
+  "fixture_version": 1,
+  "description": "Synthetic multi-service billing graph for the ChangeRadar demo and tests. No real systems, people or secrets. Each edge's freshness placeholder is replaced, when the fixture is loaded, by the timestamp one day before the load (UTC), because staleness is judged against the server's real clock.",
+  "manifests": {
+    "baseline": {
+      "schema_version": 1,
+      "revision": "demo-baseline-1",
+      "provenance": {
+        "source": "changeradar-demo-fixture"
+      },
+      "nodes": [
+        {
+          "id": "svc.billing",
+          "kind": "service",
+          "owner": "team-billing",
+          "version": "3.2.0"
+        },
+        {
+          "id": "contract.invoice",
+          "kind": "contract",
+          "owner": "team-billing",
+          "version": "1.4.0",
+          "contract": {
+            "fields": [
+              {
+                "name": "invoice_id",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "amount",
+                "type": "number",
+                "required": true
+              },
+              {
+                "name": "currency",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "note",
+                "type": "string",
+                "required": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "job.invoice-export",
+          "kind": "job",
+          "owner": "team-data",
+          "version": "0.9.1"
+        },
+        {
+          "id": "artifact.invoice-report",
+          "kind": "artifact",
+          "owner": "team-data",
+          "version": "2026.09"
+        },
+        {
+          "id": "svc.dashboard",
+          "kind": "service",
+          "owner": "team-web",
+          "version": "5.0.2"
+        },
+        {
+          "id": "job.audit-archive",
+          "kind": "job",
+          "owner": "team-compliance",
+          "version": "1.1.0"
+        },
+        {
+          "id": "svc.ledger-sync",
+          "kind": "service",
+          "owner": "team-finance",
+          "version": "2.7.0"
+        },
+        {
+          "id": "svc.mailer",
+          "kind": "service",
+          "owner": "team-comms",
+          "version": "4.3.1"
+        },
+        {
+          "id": "cred.warehouse",
+          "kind": "credential_alias",
+          "owner": "team-data",
+          "version": "1"
+        },
+        {
+          "id": "cred.smtp",
+          "kind": "credential_alias",
+          "owner": "team-comms",
+          "version": "1"
+        }
+      ],
+      "edges": [
+        {
+          "source_id": "svc.billing",
+          "target_id": "contract.invoice",
+          "relation": "produces",
+          "source_file": "services/billing.yaml",
+          "source_line": 4,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 12,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id",
+            "amount",
+            "currency"
+          ]
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "artifact.invoice-report",
+          "relation": "produces",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 18,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "cred.warehouse",
+          "relation": "requires",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 24,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "svc.dashboard",
+          "target_id": "artifact.invoice-report",
+          "relation": "consumes",
+          "source_file": "services/dashboard.yaml",
+          "source_line": 9,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.audit-archive",
+          "target_id": "artifact.invoice-report",
+          "relation": "consumes",
+          "source_file": "jobs/audit-archive.yaml",
+          "source_line": 7,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "svc.ledger-sync",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "services/ledger-sync.yaml",
+          "source_line": 15,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id",
+            "amount"
+          ]
+        },
+        {
+          "source_id": "svc.mailer",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "services/mailer.yaml",
+          "source_line": 11,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id"
+          ]
+        },
+        {
+          "source_id": "svc.mailer",
+          "target_id": "cred.smtp",
+          "relation": "requires",
+          "source_file": "services/mailer.yaml",
+          "source_line": 21,
+          "verified_at": "@FRESH@"
+        }
+      ]
+    },
+    "baseline_with_unverified_edge": {
+      "schema_version": 1,
+      "revision": "demo-baseline-2",
+      "provenance": {
+        "source": "changeradar-demo-fixture"
+      },
+      "nodes": [
+        {
+          "id": "svc.billing",
+          "kind": "service",
+          "owner": "team-billing",
+          "version": "3.2.0"
+        },
+        {
+          "id": "contract.invoice",
+          "kind": "contract",
+          "owner": "team-billing",
+          "version": "1.4.0",
+          "contract": {
+            "fields": [
+              {
+                "name": "invoice_id",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "amount",
+                "type": "number",
+                "required": true
+              },
+              {
+                "name": "currency",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "note",
+                "type": "string",
+                "required": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "job.invoice-export",
+          "kind": "job",
+          "owner": "team-data",
+          "version": "0.9.1"
+        },
+        {
+          "id": "artifact.invoice-report",
+          "kind": "artifact",
+          "owner": "team-data",
+          "version": "2026.09"
+        },
+        {
+          "id": "svc.dashboard",
+          "kind": "service",
+          "owner": "team-web",
+          "version": "5.0.2"
+        },
+        {
+          "id": "job.audit-archive",
+          "kind": "job",
+          "owner": "team-compliance",
+          "version": "1.1.0"
+        },
+        {
+          "id": "svc.ledger-sync",
+          "kind": "service",
+          "owner": "team-finance",
+          "version": "2.7.0"
+        },
+        {
+          "id": "svc.mailer",
+          "kind": "service",
+          "owner": "team-comms",
+          "version": "4.3.1"
+        },
+        {
+          "id": "cred.warehouse",
+          "kind": "credential_alias",
+          "owner": "team-data",
+          "version": "1"
+        },
+        {
+          "id": "cred.smtp",
+          "kind": "credential_alias",
+          "owner": "team-comms",
+          "version": "1"
+        }
+      ],
+      "edges": [
+        {
+          "source_id": "svc.billing",
+          "target_id": "contract.invoice",
+          "relation": "produces",
+          "source_file": "services/billing.yaml",
+          "source_line": 4,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 12,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id",
+            "amount",
+            "currency"
+          ]
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "artifact.invoice-report",
+          "relation": "produces",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 18,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "cred.warehouse",
+          "relation": "requires",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 24,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "svc.dashboard",
+          "target_id": "artifact.invoice-report",
+          "relation": "consumes",
+          "source_file": "services/dashboard.yaml",
+          "source_line": 9,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.audit-archive",
+          "target_id": "artifact.invoice-report",
+          "relation": "consumes",
+          "source_file": "jobs/audit-archive.yaml",
+          "source_line": 7,
+          "verified_at": null
+        },
+        {
+          "source_id": "svc.ledger-sync",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "services/ledger-sync.yaml",
+          "source_line": 15,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id",
+            "amount"
+          ]
+        },
+        {
+          "source_id": "svc.mailer",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "services/mailer.yaml",
+          "source_line": 11,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id"
+          ]
+        },
+        {
+          "source_id": "svc.mailer",
+          "target_id": "cred.smtp",
+          "relation": "requires",
+          "source_file": "services/mailer.yaml",
+          "source_line": 21,
+          "verified_at": "@FRESH@"
+        }
+      ]
+    },
+    "proposal_breaking_removal": {
+      "schema_version": 1,
+      "revision": "demo-proposal-remove-amount",
+      "provenance": {
+        "source": "changeradar-demo-fixture"
+      },
+      "nodes": [
+        {
+          "id": "svc.billing",
+          "kind": "service",
+          "owner": "team-billing",
+          "version": "3.2.0"
+        },
+        {
+          "id": "contract.invoice",
+          "kind": "contract",
+          "owner": "team-billing",
+          "version": "1.4.0",
+          "contract": {
+            "fields": [
+              {
+                "name": "invoice_id",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "currency",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "note",
+                "type": "string",
+                "required": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "job.invoice-export",
+          "kind": "job",
+          "owner": "team-data",
+          "version": "0.9.1"
+        },
+        {
+          "id": "artifact.invoice-report",
+          "kind": "artifact",
+          "owner": "team-data",
+          "version": "2026.09"
+        },
+        {
+          "id": "svc.dashboard",
+          "kind": "service",
+          "owner": "team-web",
+          "version": "5.0.2"
+        },
+        {
+          "id": "job.audit-archive",
+          "kind": "job",
+          "owner": "team-compliance",
+          "version": "1.1.0"
+        },
+        {
+          "id": "svc.ledger-sync",
+          "kind": "service",
+          "owner": "team-finance",
+          "version": "2.7.0"
+        },
+        {
+          "id": "svc.mailer",
+          "kind": "service",
+          "owner": "team-comms",
+          "version": "4.3.1"
+        },
+        {
+          "id": "cred.warehouse",
+          "kind": "credential_alias",
+          "owner": "team-data",
+          "version": "1"
+        },
+        {
+          "id": "cred.smtp",
+          "kind": "credential_alias",
+          "owner": "team-comms",
+          "version": "1"
+        }
+      ],
+      "edges": [
+        {
+          "source_id": "svc.billing",
+          "target_id": "contract.invoice",
+          "relation": "produces",
+          "source_file": "services/billing.yaml",
+          "source_line": 4,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 12,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id",
+            "amount",
+            "currency"
+          ]
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "artifact.invoice-report",
+          "relation": "produces",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 18,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "cred.warehouse",
+          "relation": "requires",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 24,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "svc.dashboard",
+          "target_id": "artifact.invoice-report",
+          "relation": "consumes",
+          "source_file": "services/dashboard.yaml",
+          "source_line": 9,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.audit-archive",
+          "target_id": "artifact.invoice-report",
+          "relation": "consumes",
+          "source_file": "jobs/audit-archive.yaml",
+          "source_line": 7,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "svc.ledger-sync",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "services/ledger-sync.yaml",
+          "source_line": 15,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id",
+            "amount"
+          ]
+        },
+        {
+          "source_id": "svc.mailer",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "services/mailer.yaml",
+          "source_line": 11,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id"
+          ]
+        },
+        {
+          "source_id": "svc.mailer",
+          "target_id": "cred.smtp",
+          "relation": "requires",
+          "source_file": "services/mailer.yaml",
+          "source_line": 21,
+          "verified_at": "@FRESH@"
+        }
+      ]
+    },
+    "proposal_no_known_impact": {
+      "schema_version": 1,
+      "revision": "demo-proposal-add-optional-field",
+      "provenance": {
+        "source": "changeradar-demo-fixture"
+      },
+      "nodes": [
+        {
+          "id": "svc.billing",
+          "kind": "service",
+          "owner": "team-billing",
+          "version": "3.2.0"
+        },
+        {
+          "id": "contract.invoice",
+          "kind": "contract",
+          "owner": "team-billing",
+          "version": "1.4.0",
+          "contract": {
+            "fields": [
+              {
+                "name": "invoice_id",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "amount",
+                "type": "number",
+                "required": true
+              },
+              {
+                "name": "currency",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "note",
+                "type": "string",
+                "required": false
+              },
+              {
+                "name": "memo",
+                "type": "string",
+                "required": false
+              }
+            ]
+          }
+        },
+        {
+          "id": "job.invoice-export",
+          "kind": "job",
+          "owner": "team-data",
+          "version": "0.9.1"
+        },
+        {
+          "id": "artifact.invoice-report",
+          "kind": "artifact",
+          "owner": "team-data",
+          "version": "2026.09"
+        },
+        {
+          "id": "svc.dashboard",
+          "kind": "service",
+          "owner": "team-web",
+          "version": "5.0.2"
+        },
+        {
+          "id": "job.audit-archive",
+          "kind": "job",
+          "owner": "team-compliance",
+          "version": "1.1.0"
+        },
+        {
+          "id": "svc.ledger-sync",
+          "kind": "service",
+          "owner": "team-finance",
+          "version": "2.7.0"
+        },
+        {
+          "id": "svc.mailer",
+          "kind": "service",
+          "owner": "team-comms",
+          "version": "4.3.1"
+        },
+        {
+          "id": "cred.warehouse",
+          "kind": "credential_alias",
+          "owner": "team-data",
+          "version": "1"
+        },
+        {
+          "id": "cred.smtp",
+          "kind": "credential_alias",
+          "owner": "team-comms",
+          "version": "1"
+        }
+      ],
+      "edges": [
+        {
+          "source_id": "svc.billing",
+          "target_id": "contract.invoice",
+          "relation": "produces",
+          "source_file": "services/billing.yaml",
+          "source_line": 4,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 12,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id",
+            "amount",
+            "currency"
+          ]
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "artifact.invoice-report",
+          "relation": "produces",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 18,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.invoice-export",
+          "target_id": "cred.warehouse",
+          "relation": "requires",
+          "source_file": "jobs/invoice-export.yaml",
+          "source_line": 24,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "svc.dashboard",
+          "target_id": "artifact.invoice-report",
+          "relation": "consumes",
+          "source_file": "services/dashboard.yaml",
+          "source_line": 9,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "job.audit-archive",
+          "target_id": "artifact.invoice-report",
+          "relation": "consumes",
+          "source_file": "jobs/audit-archive.yaml",
+          "source_line": 7,
+          "verified_at": "@FRESH@"
+        },
+        {
+          "source_id": "svc.ledger-sync",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "services/ledger-sync.yaml",
+          "source_line": 15,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id",
+            "amount"
+          ]
+        },
+        {
+          "source_id": "svc.mailer",
+          "target_id": "contract.invoice",
+          "relation": "consumes",
+          "source_file": "services/mailer.yaml",
+          "source_line": 11,
+          "verified_at": "@FRESH@",
+          "fields": [
+            "invoice_id"
+          ]
+        },
+        {
+          "source_id": "svc.mailer",
+          "target_id": "cred.smtp",
+          "relation": "requires",
+          "source_file": "services/mailer.yaml",
+          "source_line": 21,
+          "verified_at": "@FRESH@"
+        }
+      ]
+    }
+  },
+  "expected": {
+    "breaking_removal_against_baseline": {
+      "assessment": "AFFECTED",
+      "direct_consumers": [
+        "job.invoice-export",
+        "svc.ledger-sync"
+      ],
+      "transitive_consumers": [
+        "artifact.invoice-report",
+        "job.audit-archive",
+        "svc.dashboard"
+      ],
+      "not_affected": [
+        "svc.mailer"
+      ]
+    },
+    "no_known_impact_against_baseline": {
+      "assessment": "NO_KNOWN_IMPACT"
+    },
+    "breaking_removal_against_baseline_with_unverified_edge": {
+      "assessment": "INCOMPLETE",
+      "unknown_edge": "job.audit-archive consumes artifact.invoice-report"
+    }
+  }
+}

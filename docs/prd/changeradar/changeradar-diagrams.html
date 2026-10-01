@@ -1,8 +1,8 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ChangeRadar diagrams</title><style>/* ============================================================
- * Mission Control — Knox's report theme
+ * HTML companion report theme
  * ------------------------------------------------------------
  * Dark sci-fi command center · CRT/HUD aesthetic · Inter + JetBrains Mono
- * Domain colors per the Mission Control design system (MASTER.md)
+ * Domain colors per the design system used for these companions
  *
  * Sized for 3+ ft viewing distance from monitor:
  *   - Body: 19px (vs default 16px)
@@ -582,20 +582,18 @@ footer a:hover { color: var(--cyan); border-color: var(--cyan); }
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   Mission Control — v2 Diagram Frame (portable)
+   v2 Diagram Frame (portable)
    ────────────────────────────────────────────────────────────────────────
-   Ports the Operator's Academy "Diagram System v2" grammar
-   (academy/design-system/DIAGRAM-GRAMMAR.md) into a self-contained,
-   React-free CSS block for the HTML report companions emitted by the
-   innovation + prd-writer skills.
+   A self-contained, React-free CSS block for the HTML companion of this
+   document (diagram frame).
 
    USAGE: inline this file in a <style> block AFTER mission-control.css,
-   then wrap every Mermaid graph in the .dg DiagramFrame markup documented
-   in reports-theme/DIAGRAMS.md. Mermaid renders the topology; this CSS
+   then wrap every Mermaid graph in the .dg DiagramFrame markup used by the
+   diagrams below. Mermaid renders the topology; this CSS
    supplies the academy chrome (grid bg, mono title, ⊕ zoom chip, the
    InsightStrip takeaway bar).
 
-   DARK ONLY — Mission Control HTML companions are dark-mode only (Knox
+   DARK ONLY — these HTML companions are dark-mode only (project
    default). The academy's bi-modal light tokens are intentionally omitted.
    ════════════════════════════════════════════════════════════════════════ */
 
@@ -783,4 +781,4 @@ classDef hot fill:#0d1117,stroke:#00f0ff,stroke-width:2px,color:#e2e8f0;
 classDef green fill:#0d1117,stroke:#10b981,stroke-width:1.5px,color:#e2e8f0;
 classDef ext fill:#0d1117,stroke:#64748b,stroke-dasharray:4 3,color:#94a3b8;
 linkStyle 0,1 stroke:#00f0ff,stroke-width:2px;
-</pre><div class="insight"><b>THE POINT:</b> Completion and acceptance are separate; uncertainty cannot become success.</div></div><h2>Open decisions</h2><p>Select the first manifest sources and contract formats; proposed MVP uses explicit JSON manifests and a limited required-field/type subset, not arbitrary schema compatibility.</p><h2>Risk flags</h2><p>Manual manifests can become stale; adoption depends on a low-maintenance ownership and update workflow. Static analysis alone cannot establish actual runtime completeness.</p><script>document.querySelectorAll('input[type=checkbox]').forEach((e,i)=>{const k=location.pathname+':operator:'+i;e.checked=localStorage.getItem(k)==='1';e.addEventListener('change',()=>localStorage.setItem(k,e.checked?'1':'0'))});document.querySelectorAll('.dg').forEach(f=>f.addEventListener('click',()=>{const s=f.querySelector('svg');if(!s)return;const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:#080c12ee;z-index:9999;overflow:auto;padding:4vw;cursor:zoom-out';o.innerHTML=s.outerHTML;o.onclick=()=>o.remove();document.body.appendChild(o)}));</script><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';mermaid.initialize({startOnLoad:false,securityLevel:'strict'});</script></body></html>
+</pre><div class="insight"><b>THE POINT:</b> Completion and acceptance are separate; uncertainty cannot become success.</div></div><h2>Open decisions</h2><p>Select the first manifest sources and contract formats; proposed MVP uses explicit JSON manifests and a limited required-field/type subset, not arbitrary schema compatibility.</p><h2>Risk flags</h2><p>Manual manifests can become stale; adoption depends on a low-maintenance ownership and update workflow. Static analysis alone cannot establish actual runtime completeness.</p><script>document.querySelectorAll('input[type=checkbox]').forEach((e,i)=>{const k=location.pathname+':operator:'+i;e.checked=localStorage.getItem(k)==='1';e.addEventListener('change',()=>localStorage.setItem(k,e.checked?'1':'0'))});document.querySelectorAll('.dg').forEach(f=>f.addEventListener('click',()=>{const s=f.querySelector('svg');if(!s)return;const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:#080c12ee;z-index:9999;overflow:auto;padding:4vw;cursor:zoom-out';o.innerHTML=s.outerHTML;o.onclick=()=>o.remove();document.body.appendChild(o)}));</script></body></html>

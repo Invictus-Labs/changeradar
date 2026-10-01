@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-0nuTkUW+nXuJs5hki3QrFVpo2mkmT93P7jK/hZtOtwo='; base-uri 'none'; form-action 'none'">
+<title>ChangeRadar impact report {{RUN_ID}}</title>
+<style>:root{color-scheme:light dark;--bg:#f6f7f9;--surface:#ffffff;--fg:#14171c;--muted:#465064;--line:#b9c0cc;--accent:#1a56b8;--bad-fg:#8f120c;--bad-bg:#fde8e6;--warn-fg:#5e3b00;--warn-bg:#fff0cf;--warn-bg2:#ffe6b0;--info-fg:#17476f;--info-bg:#e4eff8;--code-bg:#eceff4}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1217;--surface:#171b22;--fg:#e8ebf0;--muted:#a9b3c3;--line:#3a4250;--accent:#8ab4ff;--bad-fg:#ffb3ab;--bad-bg:#3d1a18;--warn-fg:#f7d488;--warn-bg:#33270a;--warn-bg2:#40310c;--info-fg:#a9d2f5;--info-bg:#132a3d;--code-bg:#232833}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-wrap:anywhere}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:8px;top:8px;background:var(--surface);color:var(--fg);padding:8px;border:2px solid var(--accent);z-index:2}
+main{max-width:72rem;margin:0 auto;padding:16px 16px 48px}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+h2{font-size:1.2rem;margin:2rem 0 .6rem;border-bottom:1px solid var(--line);padding-bottom:.25rem}
+p{margin:.4rem 0}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;overflow-wrap:anywhere;word-break:break-word}
+code{background:var(--code-bg);padding:.05rem .3rem;border-radius:4px}
+.muted{color:var(--muted)}
+.verdict{margin:1rem 0;padding:16px;border-radius:8px;border:4px solid var(--line);background:var(--surface)}
+.verdict .label{display:block;font-size:1.5rem;font-weight:800;letter-spacing:.02em}
+.verdict .headline{display:block;font-size:1.1rem;font-weight:700;margin-top:.15rem}
+.verdict p{margin:.5rem 0 0}
+.verdict-affected{border-style:solid;border-color:var(--bad-fg);background:var(--bad-bg);color:var(--bad-fg)}
+.verdict-incomplete{border-style:dashed;border-color:var(--warn-fg);color:var(--warn-fg);background:repeating-linear-gradient(135deg,var(--warn-bg),var(--warn-bg) 12px,var(--warn-bg2) 12px,var(--warn-bg2) 24px)}
+.verdict-noknown{border-style:dotted;border-width:3px;border-color:var(--info-fg);background:var(--info-bg);color:var(--info-fg)}
+.verdict-pending{border-style:solid;border-width:2px}
+.verdict-failed{border-style:double;border-color:var(--bad-fg);background:var(--bad-bg);color:var(--bad-fg)}
+.verdict-stale{border-style:dashed;border-width:4px;border-color:var(--bad-fg);background:var(--warn-bg);color:var(--bad-fg)}
+dl.facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:.25rem 1rem;margin:.5rem 0}
+dl.facts dt{color:var(--muted)}
+dl.facts dd{margin:0;overflow-wrap:anywhere}
+.notice{border-left:4px solid var(--accent);padding:.4rem .8rem;background:var(--surface)}
+ul.limits,ul.plain{padding-left:1.2rem;margin:.3rem 0}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line)}
+th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+ol.path{margin:0;padding-left:1.4rem}
+ol.path li{margin:.1rem 0}
+.hop{color:var(--muted);font-size:.85em}
+.sev{display:inline-block;padding:0 .5rem;border-radius:999px;font-weight:700;font-size:.8rem;border:2px solid var(--line)}
+.sev-high{color:var(--bad-fg);background:var(--bad-bg);border-color:var(--bad-fg)}
+.sev-medium{color:var(--warn-fg);background:var(--warn-bg);border-color:var(--warn-fg);border-style:dashed}
+.empty{padding:1rem;border:1px dashed var(--line);background:var(--surface)}
+footer{margin-top:2rem;color:var(--muted);font-size:.9rem}
+@media (min-width:40.01em){
+table.stack th,table.stack td{overflow-wrap:normal}
+table.stack th{white-space:nowrap}
+table.stack td:nth-child(3){min-width:10rem}
+}
+@media (max-width:40em){
+table.stack thead{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+table.stack,table.stack tbody,table.stack tr,table.stack td{display:block;width:100%}
+table.stack tr{border-bottom:2px solid var(--line);padding:.3rem 0}
+table.stack td{border-bottom:0;padding:.25rem .6rem}
+table.stack td::before{content:attr(data-label);display:block;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+dl.facts{grid-template-columns:minmax(0,1fr)}
+dl.facts dd{margin-bottom:.4rem}
+}
+@media print{
+:root{color-scheme:light}
+body{background:#fff;color:#000;font-size:11pt}
+main{max-width:none;padding:0}
+.verdict,.verdict-affected,.verdict-incomplete,.verdict-noknown,.verdict-pending,.verdict-failed,.verdict-stale{background:#fff;color:#000;border-color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+table,th,td{background:#fff;color:#000;border-color:#000}
+tr{break-inside:avoid}
+h2{break-after:avoid}
+.muted,.hop,th,footer{color:#000}
+.skip{display:none}
+}</style>
+</head>
+<body>
+<a class="skip" href="#findings">Skip to affected consumers</a>
+<main>
+<header>
+<h1>Impact report</h1>
+<p class="muted">ChangeRadar assessment of a proposed manifest change against the imported baseline.</p>
+</header>
+<section class="verdict verdict-affected" aria-labelledby="verdict-label" data-verdict="AFFECTED"><span class="label" id="verdict-label">AFFECTED</span><span class="headline">Known consumers can break</span><p>Declared consumers depend on what this change alters. Review each path and owner below before rolling out.</p></section>
+<dl class="facts"><dt>Run</dt><dd><code>{{RUN_ID}}</code></dd><dt>Run status</dt><dd>complete <span class="muted">(describes computation, not safety)</span></dd><dt>Baseline snapshot</dt><dd>&lt;svg/onload=window.__pwned=1&gt; <code>{{SNAPSHOT_ID}}</code></dd><dt>Baseline hash</dt><dd><code>sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</code></dd><dt>Proposed hash</dt><dd><code>sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</code></dd><dt>Baseline version</dt><dd>3</dd><dt>Created</dt><dd>2026-09-29T00:00:00.000Z</dd><dt>Finished</dt><dd>2026-09-29T00:00:02.000Z</dd><dt>Changes detected</dt><dd>1</dd><dt>Findings</dt><dd>2 (1 direct, 1 transitive)</dd><dt>Unknowns</dt><dd>0</dd><dt>Report hash</dt><dd><code>sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc</code></dd></dl>
+<section aria-labelledby="coverage-h"><h2 id="coverage-h">Coverage limits</h2>
+<p class="notice">Scope: <code>&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</code>. ChangeRadar reasons only about dependencies declared in the imported manifests and never infers that an undeclared dependency does not exist.</p>
+<h3>What could not be known</h3><ul class="limits"><li><code>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code> &lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt; <span class="hop">Nodes: <code>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code></span></li></ul>
+<h3>What was known</h3><ul class="plain"><li>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</li></ul>
+<p class="muted">Examined 4 nodes and 3 edges; 2 consumers found.</p></section>
+<section aria-labelledby="unknowns-h"><h2 id="unknowns-h">Unknowns (1)</h2>
+<p class="notice">Every unknown forces INCOMPLETE. An unknown is never treated as safe.</p>
+<table class="stack"><thead><tr><th>Unknown ID</th><th>Code</th><th>Where</th><th>Explanation</th></tr></thead><tbody><tr data-unknown-id="unk_cccccccccccccccccccc"><td data-label="Unknown ID"><code>unk_cccccccccccccccccccc</code></td><td data-label="Code"><code>&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</code></td><td data-label="Where"><code>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code></td><td data-label="Explanation">&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</td></tr></tbody></table></section>
+<section aria-labelledby="findings"><h2 id="findings">Affected consumers (1)</h2><table class="stack"><thead><tr><th>Finding ID</th><th>Severity</th><th>Consumer</th><th>Owner</th><th>Depth</th><th>Path (source to consumer)</th><th>Reason</th></tr></thead><tbody><tr id="finding-fnd_0123456789abcdef0123" data-finding-id="fnd_0123456789abcdef0123"><td data-label="Finding ID"><code>fnd_0123456789abcdef0123</code></td><td data-label="Severity"><span class="sev sev-high">HIGH (direct)</span></td><td data-label="Consumer"><code>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code><br><span class="hop">&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</span></td><td data-label="Owner">&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</td><td data-label="Depth">1</td><td data-label="Path from changed item to consumer"><ol class="path"><li><code>origin-&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code></li><li><code>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code> <span class="hop">&lt;svg/onload=window.__pwned=1&gt; via javascript:window.__pwned=1//&lt;b&gt;x&lt;/b&gt;&amp;amp;:7</span></li></ol></td><td data-label="Reason">&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</td></tr></tbody></table></section>
+<section aria-labelledby="cycles-h"><h2 id="cycles-h">Dependency cycles (1)</h2><p class="notice">Cycles are reported once and never traversed twice.</p><ul class="plain"><li><code>cyc_dddddddddddddddddddd</code>: <code>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code>, <code>&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</code></li></ul></section>
+<section aria-labelledby="changes-h"><h2 id="changes-h">Detected changes (1)</h2><table class="stack"><thead><tr><th>Change ID</th><th>Kind</th><th>Node</th><th>Effect</th><th>Description</th></tr></thead><tbody><tr><td data-label="Change ID"><code>chg_eeeeeeeeeeeeeeeeeeee</code></td><td data-label="Kind"><code>&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</code></td><td data-label="Node"><code>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code></td><td data-label="Effect">field</td><td data-label="Description">&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</td></tr></tbody></table></section>
+<section aria-labelledby="checks-h"><h2 id="checks-h">Live contract checks (1)</h2><p class="notice">Read-only checks. Anything other than PASSED is an unknown and forces INCOMPLETE.</p><table class="stack"><thead><tr><th>Check</th><th>Node</th><th>State</th><th>Attempts</th><th>Detail</th></tr></thead><tbody><tr><td data-label="Check"><code>&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;</code></td><td data-label="Node"><code>&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;</code></td><td data-label="State"><strong>ERROR</strong></td><td data-label="Attempts">1</td><td data-label="Detail">&lt;img src=x onerror=&quot;window.__pwned=1&quot;&gt;&quot;&gt;&lt;script&gt;window.__pwned=1&lt;/script&gt;<br><span class="hop">Transport failure, policy refusal or missing credential. Counted as an unknown.</span></td></tr></tbody></table></section>
+<footer>
+<p>Text in this report is redacted for secret-like values and escaped; nothing here is executed or fetched.</p>
+<p>Format <code>changeradar-run-report</code> version 1. This document has no generation time; identical input gives identical output.</p>
+</footer>
+</main>
+</body>
+</html>
