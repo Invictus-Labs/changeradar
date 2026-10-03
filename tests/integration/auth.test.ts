@@ -233,7 +233,16 @@ describe("AC-12 roles are enforced on reads, writes, jobs and exports", () => {
     const { requestImpactRun } = await import("../../src/services/impact.js");
     const viewer = { userId: ws.viewer.userId, email: ws.viewer.email, workspaceId: ws.id, workspaceName: ws.name, role: "viewer" as const, sessionId: "service-level" };
     const input = { body: {}, idempotencyKey: undefined, requestHash: "sha256:" + "0".repeat(64) };
-    await expect(importSnapshot(h.ctx, viewer, input)).rejects.toMatchObject({ status: 403, code: "FORBIDDEN" });
+    // A valid import must reach the role boundary: malformed input could hide its removal behind schema validation.
+    const importOutcome = await importSnapshot(h.ctx, viewer, { ...input, body: snapshotBody() }).then(
+      () => ({ status: "fulfilled" as const }),
+      (reason: unknown) => ({ status: "rejected" as const, reason }),
+    );
+    // Assert settlement separately so a successful unauthorized import is a genuine assertion failure.
+    expect(importOutcome.status).toBe("rejected");
+    if (importOutcome.status === "rejected") {
+      expect(importOutcome.reason).toMatchObject({ status: 403, code: "FORBIDDEN" });
+    }
     await expect(requestImpactRun(h.ctx, viewer, input)).rejects.toMatchObject({ status: 403, code: "FORBIDDEN" });
   });
 

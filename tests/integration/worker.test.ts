@@ -220,8 +220,10 @@ describe("AC-13 leases: bounded claims, restart reclaim, fencing", () => {
     const { runId } = await queueRun(h, ws);
     await h.drain();
     const before = await count(h.db, "findings", "run_id = $1", [runId]);
-    await h.db.query("INSERT INTO jobs (id, workspace_id, type, object_id, state, next_attempt_at, deduplication_key, created_at, updated_at) VALUES (gen_random_uuid(), $1, 'assess_run', $2, 'queued', now() - interval '1 day', 'dup-terminal', now(), now())", [ws.id, runId]);
-    await h.db.query("INSERT INTO jobs (id, workspace_id, type, object_id, state, next_attempt_at, deduplication_key, created_at, updated_at) VALUES (gen_random_uuid(), $1, 'assess_run', gen_random_uuid(), 'queued', now() - interval '1 day', 'dup-missing', now(), now())", [ws.id]);
+    // Schedule fixtures against the same injected clock used by claimJob, not database wall time.
+    const at = h.now();
+    await h.db.query("INSERT INTO jobs (id, workspace_id, type, object_id, state, next_attempt_at, deduplication_key, created_at, updated_at) VALUES (gen_random_uuid(), $1, 'assess_run', $2, 'queued', $3::timestamptz - interval '1 day', 'dup-terminal', $3, $3)", [ws.id, runId, at]);
+    await h.db.query("INSERT INTO jobs (id, workspace_id, type, object_id, state, next_attempt_at, deduplication_key, created_at, updated_at) VALUES (gen_random_uuid(), $1, 'assess_run', gen_random_uuid(), 'queued', $2::timestamptz - interval '1 day', 'dup-missing', $2, $2)", [ws.id, at]);
     h.advance(86_400 * 2);
     expect(await h.drain()).toBe(2);
     expect(await count(h.db, "findings", "run_id = $1", [runId])).toBe(before);

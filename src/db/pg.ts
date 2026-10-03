@@ -25,6 +25,11 @@ export function openPg(url: string): Database {
     },
     async transaction(fn) {
       const client = await pool.connect();
+      // pg-pool removes the idle error listener while a client is checked out.
+      // Connection errors also emit on the client, independently of rejected queries.
+      let clientError: Error | undefined;
+      const onClientError = (error: Error): void => { clientError ??= error; };
+      client.on("error", onClientError);
       try {
         await client.query("BEGIN");
         const tx: Queryable = {
@@ -34,13 +39,20 @@ export function openPg(url: string): Database {
           },
         };
         const result = await fn(tx);
+        if (clientError) throw clientError;
         await client.query("COMMIT");
+        if (clientError) throw clientError;
         return result;
       } catch (error) {
         await client.query("ROLLBACK").catch(() => undefined);
         throw error;
       } finally {
-        client.release();
+        try {
+          // Discard a disconnected client; release restores the pool's idle listener.
+          client.release(clientError);
+        } finally {
+          client.removeListener("error", onClientError);
+        }
       }
     },
     close: () => pool.end(),

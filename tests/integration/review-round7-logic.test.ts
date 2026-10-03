@@ -5,8 +5,8 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { hashCanonical } from "../../src/domain/canonical.js";
-import { boundText, capLeaves, COMPARE_BOUND, TEXT_CAP } from "../../src/domain/derived-text.js";
-import { redactDeep } from "../../src/domain/redaction.js";
+import { boundText, capLeaves, COMPARE_BOUND, maskedEqualDeep, TEXT_CAP } from "../../src/domain/derived-text.js";
+import { detectSecretKinds, redactDeep } from "../../src/domain/redaction.js";
 import { buildBundle, serializeBundle, verifyBundle, type EvidenceBundle } from "../../src/services/evidence.js";
 import { restoreBundle } from "../../src/services/restore.js";
 import { e, f, FRESH, manifest, n } from "../helpers/builders.js";
@@ -27,6 +27,9 @@ const CASES: [string, number][] = [
   ["ct.password:abcdefgh", 34],
   ["ct.password:abcdefgh", 36],
   ["a.secret:abcdef", 42],
+  // A manifest-safe username alias is hidden at log strength, but its marker follows // rather than a credential-key separator.
+  // The masked legacy fallback cannot accept it, so both historical cut/redact readings remain independently necessary.
+  [`ct://${"a".repeat(120)}@host`, 36],
 ];
 const names = (first: number): string[] => [`${"y".repeat(first)}`, ...Array.from({ length: 15 }, (_, i) => `${String(i).padStart(3, "0")}${"x".repeat(120)}`)];
 const legacyFull = (id: string, declared: string[]): string =>
@@ -64,6 +67,16 @@ describe("R7 (logic P1, evidence.ts:487): a text written by an earlier build, cu
     }
     const full = legacyFull(id, declared);
     expect(full.length, "the legacy message is inside the window of the report").toBeGreaterThan(2140);
+    if (id.startsWith("ct://")) {
+      const afterRedaction = capLeaves(redactDeep(full)) as string;
+      const beforeRedaction = capLeaves(redactDeep(capLeaves(full))) as string;
+      expect(detectSecretKinds(id), "the synthetic alias is accepted at manifest-validator strength").toEqual([]);
+      expect(afterRedaction, "redact-then-cut retains a different legacy prefix").not.toBe(beforeRedaction);
+      expect(afterRedaction.length, "the redact-then-cut record reaches the cap").toBe(TEXT_CAP);
+      expect(beforeRedaction.length, "cut-then-redact shrinks below the masked-prefix window").toBeLessThan(TEXT_CAP - "[REDACTED]".length);
+      expect(maskedEqualDeep(full, afterRedaction, true), "the fallback must not mask a username after //").toBe(false);
+      expect(maskedEqualDeep(full, beforeRedaction, true), "the fallback must not hide the shorter historical record").toBe(false);
+    }
     const forms: [string, string][] = [
       ["the round-4 form: uncut, redacted", redactDeep(full) as string],
       ["a restore's cut of that form (cut after redaction)", capLeaves(redactDeep(full)) as string],
