@@ -1,0 +1,223 @@
+{
+ "note": "Garbled multi-layer strings (percent-encoded or literal-backslash-n text, glued colons, unbalanced quotes, comment words with keys inside, block markers) that an older tree hid and the current tree shows in part, minimised (ddmin) from the LESS strings of the independent-style differentials of round 7. `t` holds placeholders {S0}..; `s` the planted synthetic secrets; `target` is the index of the secret that the named older tree hid and the current tree leaves readable. Each case pins the CURRENT output: a change in either direction is a decision. Not a claim of acceptance: an OPEN OWNER decision in docs/qa/review-round1-ledger.md.",
+ "cases": [
+  {
+   "t": "jwt=passe= Bearer eyxabc]{S1}",
+   "s": [
+    "Q04UdyjZ9uhBLjsobZidFj",
+    "Q1trmCfacQshEmG9LL63p"
+   ],
+   "target": 1,
+   "older_tree": "435731e"
+  },
+  {
+   "t": "\"name%22:%22token\"[%22value%22:\"{S0}",
+   "s": [
+    "Q0eH3YrXHdreghf"
+   ],
+   "target": 0,
+   "older_tree": "435731e"
+  },
+  {
+   "t": "Cookie%3Aconnectionstring%3D%20>%0A%20{S1}\\n{S2}",
+   "s": [
+    "Q0zg89EpPxueYP8iCqC8",
+    "Q1envpLeJkA6kA",
+    "Q2tVJkdqnTcRXC2"
+   ],
+   "target": 2,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "connectionstring%3D[]-Authorization%3AD%0Ao23A{{S2}",
+   "s": [
+    "Q0ZS7VG2PzuARitcxMfpK",
+    "Q1Qxborx2CUKstKR",
+    "Q2Fu4HzudAYcgfQ"
+   ],
+   "target": 2,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "pass=[]authorization%3A%%0Aret\\\"{S1}",
+   "s": [
+    "Q0VvVkn7vDmAztuUajqboj",
+    "Q1rYK6VGXQ8mD2HDeU"
+   ],
+   "target": 1,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "pass=[]authorization%3A%2%0A\\\\\\\"{S1}",
+   "s": [
+    "Q0Bk9uMUCP38mD",
+    "Q1L5n23swFGnXzKrn5C"
+   ],
+   "target": 1,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "connectionstring: #pw={S0}\\nm\n{S1}",
+   "s": [
+    "Q0mStHGLoXsgisM72RW",
+    "Q1APsrhC7juP3A"
+   ],
+   "target": 1,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "accesskey: #{S0}\r|\\n :\\n{S1}",
+   "s": [
+    "Q03Q6E75aygF9CKZ6AkY",
+    "Q15ms9gpDxsK88K9xHdPs"
+   ],
+   "target": 1,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "sessionid: #pass:{S0}\\nv\n{S1}",
+   "s": [
+    "Q0YJBLYBC2GJVrUWJo",
+    "Q1qZhDiqhYmj94nbYiq4sG"
+   ],
+   "target": 1,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "sessionid: ! #pass:{S0}\\nv\n{S1}",
+   "s": [
+    "Q0YJBLYBC2GJVrUWJo",
+    "Q1qZhDiqhYmj94nbYiq4sG"
+   ],
+   "target": 1,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "auth: #{S0}\n|\\n 5\\n{S1}",
+   "s": [
+    "Q0YJBLYBC2GJVrUWJo",
+    "Q1qZhDiqhYmj94nbYiq4sG"
+   ],
+   "target": 1,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "auth:! #{S0}\n|\\n 5\\n{S1}",
+   "s": [
+    "Q0YJBLYBC2GJVrUWJo",
+    "Q1qZhDiqhYmj94nbYiq4sG"
+   ],
+   "target": 1,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "pw: #{S0}\n|\\n 5\\n{S1}",
+   "s": [
+    "Q0YJaeHbtZH88d6DiDvkFN",
+    "Q1HoHYXaG2BpgsUMTSUsU"
+   ],
+   "target": 1,
+   "older_tree": "round-6 base"
+  },
+  {
+   "t": "pw: ! #{S0}\n|\\n 5\\n{S1}",
+   "s": [
+    "Q0YJaeHbtZH88d6DiDvkFN",
+    "Q1HoHYXaG2BpgsUMTSUsU"
+   ],
+   "target": 1,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "\\notp=0Pswd= |%0A v\\n{S2}",
+   "s": [
+    "Q08W9mgjo3qM7imkUfC",
+    "Q1b4b3e36c79WYhVAEt",
+    "Q2PLERiwqZMZAy"
+   ],
+   "target": 2,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "\\npw: authorization%3A\\%0A {S2}",
+   "s": [
+    "Q0QTKSPnCy5UKHhqTU7oL7",
+    "Q1apHDkupLrBubYAFSTQ9F",
+    "Q2zEHCJQbz4JZNx9W6NQ"
+   ],
+   "target": 2,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "\\nENV%20SECRET%20passw%3D%20{{S1}}{S2}",
+   "fixed": "closed groups glued to a word (round 7, ruled P1): hidden now, the test expects it so",
+   "s": [
+    "Q0ZS7VG2PzuARitcxMfpK",
+    "Q1Qxborx2CUKstKR",
+    "Q2Fu4HzudAYcgfQ"
+   ],
+   "target": 2,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "\\npin: apikey= [ {S1}]{S2}",
+   "fixed": "closed groups glued to a word (round 7, ruled P1): hidden now, the test expects it so",
+   "s": [
+    "Q0RjewaGTTaAAQNT",
+    "Q1vdszD2ketuQLK",
+    "Q2qkXvC3wUe6MMHsWCvj"
+   ],
+   "target": 2,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "\\npin: apikey= [&{S1}]{S2}",
+   "fixed": "closed groups glued to a word (round 7, ruled P1): hidden now, the test expects it so",
+   "s": [
+    "Q0DoxNB84Tp2WNBmDzabgm",
+    "Q1zAsdCEstRMfAHRLdWJC",
+    "Q2LZzT6jL2YFn8TL4SbzH"
+   ],
+   "target": 2,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "\\npin: apikey= [{S1} ]{S2}",
+   "fixed": "closed groups glued to a word (round 7, ruled P1): hidden now, the test expects it so",
+   "s": [
+    "Q03LipmGaMwcQCKt3",
+    "Q1QRuxHiFYAsZDKGf",
+    "Q2ApBJgiAAioWv"
+   ],
+   "target": 2,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "apikey:! #TOKEN:{S0}\\n: \\n{S1}",
+   "s": [
+    "Q0tBejKKP8tft3RVTVRmkz",
+    "Q1gcn7SBuciU3UTmM"
+   ],
+   "target": 1,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "accesskey:! #auth:{S0}\\n9\n{S1}",
+   "s": [
+    "Q0hy9vM9siFFfjvhXy",
+    "Q1oevzfVK6SV7brYwgZP4"
+   ],
+   "target": 1,
+   "older_tree": "round-7 base"
+  },
+  {
+   "t": "dsn: & #auth={S0}\\nK\r{S1}",
+   "s": [
+    "Q0BfxJqmF2KNoPdCVobd",
+    "Q1Gn8iJSaX8stU3YD5J89h"
+   ],
+   "target": 1,
+   "older_tree": "round-7 base"
+  }
+ ]
+}

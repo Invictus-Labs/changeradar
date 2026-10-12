@@ -2,9 +2,9 @@
 
 **See which consumers a proposed change can break.**
 
-Author: Codex via prd-writer · 2026-09-29
+Author: ChangeRadar maintainers · 2026-09-29
 
-Status: Draft; proposed topology; open-source direction; implementation not started. Board: #3793 (authoring only).
+Status: the product requirements as written before implementation. The implementation status of every acceptance criterion below (passed, partial, pending) is recorded in `docs/qa/ac-matrix.md`; the acceptance criteria themselves are unchanged.
 
 ## 1. Problem Statement
 
@@ -59,7 +59,7 @@ Targets are proposed decision thresholds. Report failures and sample sizes; smal
 
 **SEC · 04c — Test Strategy & DoD**
 
-**13 mapped ACs / 13 total ACs. All tests are PLANNED; none is claimed to pass.**
+**13 mapped ACs / 13 total ACs. All tests are PLANNED; none is claimed to pass.** This table is the original plan; the acceptance matrix `docs/qa/ac-matrix.md` holds the current, evidenced statuses.
 
 | AC | Level | Proven by — planned behavior | Execution | Status |
 | --- | --- | --- | --- | --- |
@@ -101,7 +101,7 @@ The final receipt records every repository SHA, dirty-tree status, environment, 
 
 ## 5c. Definition of Done
 
-Reference the canonical **CLAUDE.md → Quality Gate Standard (ALL repos)** at implementation time; resolve its actual workspace path in the build handoff and follow the current local/swarm runner policy. Do not introduce a competing universal gate in this PRD.
+The definition of done is this repository's own quality gate (`bash scripts/verify-quality.sh`, see `CONTRIBUTING.md` and `docs/qa/`); this document does not define a competing gate.
 
 Feature-specific release conditions: every numbered acceptance criterion has current evidence; live criteria have live sandbox receipts; independent review of the final tested revision has zero P0/P1; seeded negative controls fail as intended; documentation explains unknown/partial states. Manual manifests can become stale; adoption depends on a low-maintenance ownership and update workflow. Static analysis alone cannot establish actual runtime completeness.
 
@@ -228,7 +228,7 @@ Pin supported runtime/package versions during implementation and verify adapter 
 Before an upgrade, stop side-effect workers, back up metadata and encrypted evidence, and test restoration in an isolated environment. Prefer expand/contract migrations; rollback uses a verified snapshot where schema downgrade is unsafe. Reconcile external outcomes before enabling writes after restore. A restored local database cannot undo remote effects. Stage rollout: synthetic local prototype → read-only sandbox → scoped approved live sandbox → independent acceptance → owner-selected public release.
 
 
-## 7. Agent Team Plan
+## 7. Work Plan
 
 | Owner | Exclusive files | Deliverable |
 | --- | --- | --- |
@@ -237,7 +237,7 @@ Before an upgrade, stop side-effect workers, back up metadata and encrypted evid
 | QA / packaging | tests/changeradar.spec.ts; tests/e2e/smoke.spec.ts; fixtures/demo.json; scripts/verify-quality.sh; README.md; Dockerfile | Evidence matrix, negative controls, packaging and operator runbook |
 
 
-Future dispatch only. No implementation agents are started by PRD authoring. Backend freezes schemas first; UI consumes them and proposes changes through the backend owner. QA reports implementation defects to the owning agent instead of editing overlapping files. Coordinator resolves shared configuration and reviews final integration.
+Work split, as planned: the backend freezes schemas first; the UI consumes them and proposes changes through the backend owner. QA reports implementation defects to the owner of the code instead of editing overlapping files. The release owner resolves shared configuration and reviews final integration.
 
 Milestones: (1) validate pain and unresolved provider capability; (2) schemas and deterministic core with failure states; (3) synthetic end-to-end demonstration; (4) selected connector sandbox and fault injection where applicable; (5) independent review/QA on exact revisions; (6) operator-approved public release. Stop at a provider capability blocker rather than weakening safety criteria.
 
@@ -267,10 +267,6 @@ Architecture choices are proposed defaults for autonomous drafting; no topology 
 
 Checks in the HTML persist locally and are operator notes, not evidence that external work was completed.
 
-## Build handoff
+## Build status
 
-After resolving build-blocking questions and selecting this product:
-
-```text
-/feature-team docs/prd/changeradar.md
-```
+See `docs/qa/ac-matrix.md` for what has been built and proven against each acceptance criterion, and `README.md` for how to run it.

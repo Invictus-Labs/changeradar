@@ -1,0 +1,17 @@
+.git
+.claude
+.changeradar
+node_modules
+dist
+coverage
+playwright-report
+test-results
+demo-artifacts
+*.tgz
+*.log
+.env
+.env.*
+!.env.example
+docs
+tests
+scripts
