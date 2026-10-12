@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import type { Database, Queryable } from "../db/index.js";
 import type { Clock } from "../domain/clock.js";
+import { redactSecrets } from "../domain/redaction.js";
 import { addSeconds } from "../platform/context.js";
 
 export type JobType = "assess_run";
@@ -100,17 +101,20 @@ export async function completeWith(db: Database, job: Job, handler: (tx: Queryab
 export async function failJob(
   db: Database,
   job: Job,
-  error: Error,
+  error: unknown,
   clock: Clock,
   onDead: (tx: Queryable, job: Job) => Promise<void>,
 ): Promise<"queued" | "dead"> {
   return db.transaction(async (tx) => {
     const now = clock.now();
     const dead = job.attempt >= job.max_attempts;
+    // Worker error text can quote credentials (a connection string, an upstream message): scrub it like the outbox does.
+    // A thrown non-Error value must still be recorded, not crash the failure path and strand the job until its lease ends.
+    const message = redactSecrets(error instanceof Error ? error.message : String(error)).slice(0, 500);
     const result = await tx.query<Job>(
       `UPDATE jobs SET state = $2, lease_until = NULL, next_attempt_at = $3, last_error = $4, updated_at = $5
         WHERE id = $1 AND locked_by = $6 AND attempt = $7 AND state = 'running' RETURNING *`,
-      [job.id, dead ? "dead" : "queued", addSeconds(now, 2 ** job.attempt), error.message.slice(0, 500), now, job.locked_by, job.attempt],
+      [job.id, dead ? "dead" : "queued", addSeconds(now, 2 ** job.attempt), message, now, job.locked_by, job.attempt],
     );
     if (!result.rows[0]) throw new LeaseLostError();
     if (dead) await onDead(tx, result.rows[0]);

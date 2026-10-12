@@ -176,6 +176,28 @@ describe("AC-13 leases: bounded claims, restart reclaim, fencing", () => {
     await h.drain();
   });
 
+  it("a failure message is redacted before it is stored in jobs.last_error", async () => {
+    const { runId } = await queueRun(h, ws);
+    const leak = { afterClaim: () => { throw new Error("upstream refused: password=example-not-real-0001 at db"); } };
+    expect((await runWorkerOnce(h.ctx, { hooks: leak })).result).toBe("retry");
+    const job = (await h.db.query<{ last_error: string; state: string }>("SELECT last_error, state FROM jobs WHERE object_id = $1", [runId])).rows[0]!;
+    expect(job.state).toBe("queued");
+    expect(job.last_error).not.toContain("example-not-real-0001");
+    expect(job.last_error).toContain("[REDACTED]");
+    h.advance(3600);
+    await h.drain();
+  });
+
+  it("a thrown non-Error value is recorded as a failure instead of stranding the job", async () => {
+    const { runId } = await queueRun(h, ws);
+    const odd = { afterClaim: () => { throw "plain string failure"; } };
+    expect((await runWorkerOnce(h.ctx, { hooks: odd })).result).toBe("retry");
+    const job = (await h.db.query<{ last_error: string; state: string }>("SELECT last_error, state FROM jobs WHERE object_id = $1", [runId])).rows[0]!;
+    expect(job).toMatchObject({ state: "queued", last_error: "plain string failure" });
+    h.advance(3600);
+    await h.drain();
+  });
+
   it("concurrent workers process each run exactly once", async () => {
     const snap = await h.importSnapshot(ws.operator, baselineDoc());
     const ids: string[] = [];

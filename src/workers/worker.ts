@@ -58,7 +58,7 @@ export async function runWorkerOnce(ctx: Ctx, options: WorkerOptions = {}): Prom
     if (error instanceof SimulatedCrash) return { job, result: "crashed" };
     if (error instanceof LeaseLostError) return { job, result: "lease_lost" };
     try {
-      const state = await failJob(ctx.db, job, error as Error, ctx.clock, (tx, dead) => surfaceDeadJob(tx, ctx, dead));
+      const state = await failJob(ctx.db, job, error, ctx.clock, (tx, dead) => surfaceDeadJob(tx, ctx, dead));
       ctx.diagnostics({ event: "worker.job_failed", level: "warn", job_id: job.id, code: error instanceof Error ? error.name : "error" });
       return { job, result: state === "dead" ? "dead" : "retry" };
     } catch (failure) {
